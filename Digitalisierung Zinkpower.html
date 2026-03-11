@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digitalisierung als Fundament - Zinkpower Case Study</title>
+    <style>
+        :root {
+            --primary: #21808d;
+            --primary-dark: #1a6775;
+            --accent: #32b8c6;
+            --bg-dark: #0f172a;
+            --bg-darker: #020617;
+            --bg-card: #1e293b;
+            --text-light: #f1f5f9;
+            --text-muted: #cbd5e1;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            background: var(--bg-darker);
+            color: var(--text-light);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            padding: 2rem;
+            position: relative;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        .hero .tagline {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            max-width: 700px;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            animation: fadeInUp 1.4s ease;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1.6s ease;
+        }
+
+        .cta-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(33, 128, 141, 0.3);
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--accent);
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 6rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .vision-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(50, 184, 198, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(50, 184, 198, 0.2);
+            border-color: var(--accent);
+        }
+
+        .card h3 {
+            color: var(--accent);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p, .card ul {
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card ul li {
+            padding-left: 1.5rem;
+            position: relative;
+            margin-bottom: 0.5rem;
+        }
+
+        .card ul li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--primary);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .timeline-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .timeline-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .timeline-content {
+            width: 45%;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .timeline-content h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 0 4px var(--bg-dark);
+        }
+
+        .risks-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .risk-item {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .risk-item h4 {
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .risk-item .mitigation {
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--primary);
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .kpi-card {
+            background: var(--bg-card);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--primary);
+        }
+
+        .kpi-card .number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .kpi-card .label {
+            color: var(--text-muted);
+            font-size: 1rem;
+        }
+
+        .ai-potential {
+            background: var(--bg-dark);
+        }
+
+        .ai-examples {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .ai-card {
+            background: linear-gradient(135deg, var(--bg-card) 0%, rgba(30, 41, 59, 0.5) 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .ai-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(50, 184, 198, 0.3);
+        }
+
+        .ai-card h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .qr-section {
+            background: var(--bg-darker);
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .qr-container {
+            display: inline-block;
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .qr-code {
+            width: 250px;
+            height: 250px;
+            margin: 0 auto;
+            background: white;
+            border: 4px solid var(--primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            color: #333;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .qr-instruction {
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .phase-diagram {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .phase {
+            flex: 1;
+            min-width: 200px;
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            position: relative;
+        }
+
+        .phase-number {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            line-height: 40px;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .phase h4 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .phase p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .arrow {
+            color: var(--accent);
+            font-size: 2rem;
+            display: none;
+        }
+
+        footer {
+            background: var(--bg-darker);
+            padding: 2rem;
+            text-align: center;
+            color: var(--text-dim);
+            border-top: 1px solid rgba(50, 184, 198, 0.2);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+            h2 {
+                font-size: 2rem;
+            }
+            .timeline::before {
+                left: 20px;
+            }
+            .timeline-item {
+                flex-direction: column !important;
+                padding-left: 50px;
+            }
+            .timeline-content {
+                width: 100%;
+            }
+            .timeline-dot {
+                left: 20px;
+            }
+            .risks-grid {
+                grid-template-columns: 1fr;
+            }
+            .arrow {
+                display: none !important;
+            }
+        }
+
+        @media (min-width: 769px) {
+            .arrow {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Digitalisierung als Fundament</h1>
+        <p class="subtitle">Die Datenbasis für Innovation bei Zinkpower</p>
+        <p class="tagline">
+            Bevor wir über KI sprechen, müssen wir erst eine solide Grundlage schaffen.<br>
+            Digitalisierung ist nicht die Lösung – sie ist die Voraussetzung für alle zukünftigen Innovationen.
+        </p>
+        <a href="#start" class="cta-button">Projekt erkunden</a>
+        <div class="scroll-indicator">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Projektstart -->
+    <section id="start" style="background: var(--bg-dark);">
+        <div class="container">
+            <h2>1. Wie würde ich das Projekt starten?</h2>
+            <div class="vision-grid">
+                <div class="card">
+                    <h3>📋 Ist-Analyse (Woche 1)</h3>
+                    <ul>
+                        <li>Welche Dokumentation existiert aktuell?</li>
+                        <li>Wie viel davon ist papierbasiert?</li>
+                        <li>Wo liegt kritisches Wissen?</li>
+                        <li>Audit-Anforderungen erfassen</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎯 Low Hanging Fruits identifizieren</h3>
+                    <ul>
+                        <li>Einfachste Prozesse zuerst digitalisieren</li>
+                        <li>Quick Wins für Glaubwürdigkeit</li>
+                        <li>Pilotwerk auswählen (Brunn am Gebirge)</li>
+                        <li>1-2 Produktionslinien als Test</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🔧 OCR-Digitalisierung starten</h3>
+                    <ul>
+                        <li>Bestehende Papierdokumente einscannen</li>
+                        <li>OCR-Software für Textextraktion</li>
+                        <li>Sofortiger Datenbestand verfügbar</li>
+                        <li>Suchbar & archivierbar machen</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3 Entscheidungen -->
+    <section id="decisions" style="background: var(--bg-darker);">
+        <div class="container">
+            <h2>2. Die 3 kritischsten Entscheidungen (erste 4 Wochen)</h2>
+            <div class="phase-diagram">
+                <div class="phase">
+                    <div class="phase-number">1</div>
+                    <h4>Tool-Auswahl</h4>
+                    <p><strong>Was:</strong> Einfache, bewährte Lösung (z.B. SharePoint, Notion, oder spezialisierte Produktions-Tools wie Tulip)</p>
+                    <p style="margin-top: 0.5rem;"><strong>Warum:</strong> Geringe IT-Belastung, schnelle Implementierung, skalierbar</p>
+                </div>
+                <span class="arrow">→</span>
+                <div class="phase">
+                    <div class="phase-number">2</div>
+                    <h4>Datenstruktur festlegen</h4>
+                    <p><strong>Was:</strong> Einheitliche Felder, Kategorien, Messgrößen für ALLE Werke</p>
+                    <p style="margin-top: 0.5rem;"><strong>Warum:</strong> Ohne Standard entsteht digitales Chaos statt digitaler Ordnung</p>
+                </div>
+                <span class="arrow">→</span>
+                <div class="phase">
+                    <div class="phase-number">3</div>
+                    <h4>Pilot-Prozess definieren</h4>
+                    <p><strong>Was:</strong> Genau EINEN Prozess auswählen (z.B. Qualitätsdokumentation nach Verzinkung)</p>
+                    <p style="margin-top: 0.5rem;"><strong>Warum:</strong> Fokus statt Überforderung. Erfolg zeigen, dann ausweiten</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gespräche -->
+    <section id="conversations" style="background: var(--bg-dark);">
+        <div class="container">
+            <h2>3. Gesprächsstrategie – in welcher Reihenfolge?</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Woche 1: Werkleiter (1:1, 90 Min)</h4>
+                        <p><strong>Ziel:</strong> Erwartungen klären, Ängste verstehen<br>
+                        <strong>Kernfrage:</strong> "Was ist Ihr größter Pain Point bei der aktuellen Dokumentation?"<br>
+                        <strong>Botschaft:</strong> Keine KI-Revolution – erst mal digitales Papier</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Woche 1: IT-Verantwortlicher (60 Min)</h4>
+                        <p><strong>Ziel:</strong> Technische Rahmenbedingungen, IT-Kapazitäten<br>
+                        <strong>Kernfrage:</strong> "Welche Systeme laufen bereits? Wo sind Schnittstellen möglich?"<br>
+                        <strong>Botschaft:</strong> Low-Code-Lösungen bevorzugt, minimale IT-Belastung</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Woche 2: Qualitätsbeauftragter (60 Min)</h4>
+                        <p><strong>Ziel:</strong> Audit-Anforderungen im Detail verstehen<br>
+                        <strong>Kernfrage:</strong> "Welche Nachweise werden beim Audit gefordert?"<br>
+                        <strong>Botschaft:</strong> Audit-Readiness als Hauptziel der ersten 8 Monate</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Woche 2: Schichtführer (Gruppen-Workshop, 120 Min)</h4>
+                        <p><strong>Ziel:</strong> Prozesse verstehen, Schmerzpunkte identifizieren<br>
+                        <strong>Methode:</strong> Design Thinking – Co-Kreation statt Top-Down<br>
+                        <strong>Botschaft:</strong> "Ihr seid die Experten – ich brauche euer Wissen"</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Woche 3: Schlüsselpersonen (1:1, je 45 Min)</h4>
+                        <p><strong>Ziel:</strong> Kritisches Wissen dokumentieren<br>
+                        <strong>Kernfrage:</strong> "Was würde fehlen, wenn Sie morgen nicht mehr da wären?"<br>
+                        <strong>Botschaft:</strong> Wissen sichern, nicht ersetzen – ihr werdet zu Mentoren</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h4>Woche 4: Pilot-User-Group (Kick-off, 90 Min)</h4>
+                        <p><strong>Ziel:</strong> 5-7 Early Adopters als Multiplikatoren gewinnen<br>
+                        <strong>Methode:</strong> Live-Demo des Tools, hands-on testen lassen<br>
+                        <strong>Botschaft:</strong> "Ihr formt das Tool – eure Feedback zählt"</p>
+                    </div>
+                    <div class="timeline-dot"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Widerstand -->
+    <section id="resistance" style="background: var(--bg-darker);">
+        <div class="container">
+            <h2>4. Umgang mit Widerstand</h2>
+            <div class="vision-grid">
+                <div class="card">
+                    <h3>🛡️ Kernargument: "Digitalisierung vor KI"</h3>
+                    <p style="margin-bottom: 1rem;">Das stärkste Argument gegen Skepsis:</p>
+                    <p style="color: var(--accent); font-style: italic; border-left: 3px solid var(--primary); padding-left: 1rem;">
+                        "Bevor wir überhaupt über KI reden können, müssen wir erst digitalisieren – und das dauert Jahre. 
+                        Aktuell geht es nur um digitale Formulare statt Papier. Nicht mehr, nicht weniger."
+                    </p>
+                </div>
+                <div class="card">
+                    <h3>🤝 Partizipation statt Diktatur</h3>
+                    <ul>
+                        <li>Werkleiter und Betroffene aktiv einbinden</li>
+                        <li>Design Thinking Workshops</li>
+                        <li>Pilot-User bestimmen das Tool mit</li>
+                        <li>Feedback wird sichtbar umgesetzt</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>📊 Show, don't tell</h3>
+                    <ul>
+                        <li>Nach Woche 4: Funktionierende Demo</li>
+                        <li>Keine PowerPoint-Versprechen</li>
+                        <li>Mitarbeiter selbst testen lassen</li>
+                        <li>Quick Wins sichtbar machen</li>
+                    </ul>
+                </div>
+                <div class="card">
+                    <h3>🎯 ADKAR Change-Modell</h3>
+                    <ul>
+                        <li><strong>A</strong>wareness: Warum? → Audit-Druck</li>
+                        <li><strong>D</strong>esire: Was hab ich davon? → Weniger Papierkram</li>
+                        <li><strong>K</strong>nowledge: Wie geht's? → Schulungen</li>
+                        <li><strong>A</strong>bility: Kann ich das? → Hands-on Training</li>
+                        <li><strong>R</strong>einforcement: Erfolge feiern</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Risiken -->
+    <section id="risks" style="background: var(--bg-dark);">
+        <div class="container">
+            <h2>5. Größte Risiken & Gegenmaßnahmen</h2>
+            <div class="risks-grid">
+                <div class="risk-item">
+                    <h4>🚨 Risiko 1: Fehlende Adoption (HÖCHSTES RISIKO)</h4>
+                    <p>Mitarbeiter nutzen das Tool nicht – fallen zurück zu Papier.</p>
+                    <div class="mitigation">
+                        <strong>Gegenmaßnahme:</strong><br>
+                        • MVP-Ansatz: 20% Features = 80% Nutzen<br>
+                        • Nach 3 Monaten: Papier wird für 1 Linie deaktiviert<br>
+                        • Gamification: Team-Badges für Nutzung<br>
+                        • 2-wöchige Feedback-Loops
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <h4>⚠️ Risiko 2: Kein sofortiger ROI sichtbar</h4>
+                    <p>Management sieht keinen direkten monetären Vorteil.</p>
+                    <div class="mitigation">
+                        <strong>Gegenmaßnahme:</strong><br>
+                        • Reframe als "Infrastruktur-Investition"<br>
+                        • Audit-Vorbereitung: Zeit-ROI messen (X Stunden gespart)<br>
+                        • Future Value kommunizieren: "Jedes KI-Projekt in 2 Jahren hat 40-60% niedrigeren Startaufwand"
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <h4>⚙️ Risiko 3: IT-Ressourcen-Engpass</h4>
+                    <p>Begrenzte IT-Kapazität verzögert Implementierung.</p>
+                    <div class="mitigation">
+                        <strong>Gegenmaßnahme:</strong><br>
+                        • Cloud-SaaS-Lösung statt On-Premise<br>
+                        • Low-Code / No-Code Tools bevorzugen<br>
+                        • Externer Support für Setup (einmalig)<br>
+                        • Selbstverwaltung durch Power User
+                    </div>
+                </div>
+                <div class="risk-item">
+                    <h4>📅 Risiko 4: Audit-Termin wird nicht erreicht</h4>
+                    <p>8 Monate sind knapp – Verzögerungen gefährden Ziel.</p>
+                    <div class="mitigation">
+                        <strong>Gegenmaßnahme:</strong><br>
+                        • Agile Priorisierung: Audit-Features ZUERST<br>
+                        • 2-Wochen-Sprints mit festen Meilensteinen<br>
+                        • Fallback-Plan: Hybrid (Papier + digital) bis Audit<br>
+                        • Wöchentliches Risiko-Review
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Erfolgsmessung -->
+    <section id="success" style="background: var(--bg-darker);">
+        <div class="container">
+            <h2>6. Erfolgsmessung nach 6 Monaten</h2>
+            <h3 style="color: var(--text-muted); text-align: center; margin-bottom: 2rem;">Quantitative KPIs</h3>
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="number">80%</div>
+                    <div class="label">Digitalisierungsgrad Pilotwerk</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="number">-40%</div>
+                    <div class="label">Zeit für Dokumentation<br>(30 Min → 18 Min pro Charge)</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="number">100%</div>
+                    <div class="label">Audit-Nachweise digital abrufbar</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="number">&gt;70%</div>
+                    <div class="label">Login-Rate aktive Nutzer</div>
+                </div>
+            </div>
+
+            <h3 style="color: var(--text-muted); text-align: center; margin: 3rem 0 2rem;">Qualitative KPIs</h3>
+            <div class="vision-grid">
+                <div class="card">
+                    <h3>📈 Net Promoter Score (NPS)</h3>
+                    <p>Ziel: NPS &gt; 30 bei Nutzern<br><br>
+                    Frage: "Wie wahrscheinlich würden Sie das Tool einem Kollegen empfehlen?" (0-10 Skala)</p>
+                </div>
+                <div class="card">
+                    <h3>💬 Werkleiter-Feedback</h3>
+                    <p>Ziel: Positive Aussage wie:<br><br>
+                    <em>"Ich habe jetzt Transparenz über Prozesse, die ich vorher nicht hatte."</em></p>
+                </div>
+                <div class="card">
+                    <h3>📚 Wissensmanagement</h3>
+                    <p>Ziel: &gt; 50 dokumentierte Best Practices<br><br>
+                    Schlüsselpersonen-Wissen wird digitalisiert und für alle verfügbar</p>
+                </div>
+            </div>
+
+            <h3 style="color: var(--text-muted); text-align: center; margin: 3rem 0 2rem;">Leading Indicators (Frühwarnsystem)</h3>
+            <div class="risks-grid">
+                <div class="risk-item" style="border-left-color: var(--primary);">
+                    <h4>Woche 8 Checkpoint</h4>
+                    <p style="color: var(--accent);">✓ Mindestens 60% Login-Rate der Pilot-User-Group</p>
+                    <p style="margin-top: 0.5rem;">Falls nicht erreicht: Sofortiges User-Feedback einholen, Tool anpassen</p>
+                </div>
+                <div class="risk-item" style="border-left-color: var(--primary);">
+                    <h4>Woche 12 Checkpoint</h4>
+                    <p style="color: var(--accent);">✓ Mindestens 3 positive Testimonials von Mitarbeitern</p>
+                    <p style="margin-top: 0.5rem;">Falls nicht erreicht: Change Management intensivieren, Quick Wins kommunizieren</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Potential -->
+    <section id="ai-potential" class="ai-potential">
+        <div class="container">
+            <h2>Die Zukunft: Was diese Datenbasis ermöglicht</h2>
+            <p style="text-align: center; color: var(--text-muted); max-width: 800px; margin: 0 auto 3rem; font-size: 1.1rem;">
+                Sobald die Digitalisierung abgeschlossen ist, werden diese KI-Projekte möglich – 
+                <strong>ohne Datenbasis wären sie nur Science Fiction.</strong>
+            </p>
+            <div class="ai-examples">
+                <div class="ai-card">
+                    <h3>🤖 KI-Chatbot Wissensassistent</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        Mitarbeiter fragen einfach: <em>"Wie ist der Standardprozess für Charge XY?"</em> – 
+                        KI durchsucht alle digitalisierten Dokumente und Schichtberichte.
+                    </p>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">
+                        <strong>Basis:</strong> Digitale Schichtübergaben + DMS + Wissensdatenbank
+                    </p>
+                </div>
+                <div class="ai-card">
+                    <h3>👁️ Computer Vision Qualitätskontrolle</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        Automatische Erkennung von Oberflächenfehlern bei verzinkten Teilen – 
+                        Mitarbeiter fotografieren, KI warnt bei Anomalien.
+                    </p>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">
+                        <strong>Basis:</strong> Digitale Foto-Dokumentation + historische Qualitätsdaten
+                    </p>
+                </div>
+                <div class="ai-card">
+                    <h3>⚙️ Predictive Maintenance</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        IoT-Sensoren + KI erkennen Muster und warnen vor Anlagenausfällen, 
+                        bevor sie passieren – spart Stillstandzeiten.
+                    </p>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">
+                        <strong>Basis:</strong> Digitalisierte Wartungsprotokolle + Prozessparameter
+                    </p>
+                </div>
+                <div class="ai-card">
+                    <h3>📊 Automatisierte Audit-Reports</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        KI generiert audit-konforme Berichte auf Knopfdruck – 
+                        keine wochenlange manuelle Datenzusammenstellung mehr.
+                    </p>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">
+                        <strong>Basis:</strong> Strukturierte digitale Produktions- & Qualitätsdaten
+                    </p>
+                </div>
+                <div class="ai-card">
+                    <h3>🔮 Anomalie-Erkennung Prozesse</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        KI überwacht Badtemperatur, Zinkkonzentration, Behandlungszeiten – 
+                        warnt bei Abweichungen bevor Qualitätsprobleme entstehen.
+                    </p>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">
+                        <strong>Basis:</strong> Digitalisierte Prozessparameter über Monate/Jahre
+                    </p>
+                </div>
+                <div class="ai-card">
+                    <h3>🏭 Werke-Vergleich & Benchmarking</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 1rem;">
+                        Alle Zinkpower-Werke nutzen einheitliche Messgrößen – 
+                        KI erkennt Best Practices und schlägt Optimierungen vor.
+                    </p>
+                    <p style="color: var(--text-dim); font-size: 0.9rem;">
+                        <strong>Basis:</strong> Standardisierte Datenstruktur über alle Standorte
+                    </p>
+                </div>
+            </div>
+
+            <div style="margin-top: 3rem; text-align: center;">
+                <p style="font-size: 1.3rem; color: var(--accent); font-weight: 600;">
+                    Digitalisierung ist kein Projekt – sie ist das Fundament für alle Innovationen der nächsten Dekade.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- QR Code Section -->
+    <section class="qr-section">
+        <div class="container">
+            <h2>Diese Präsentation auf Ihrem Gerät öffnen</h2>
+            <p class="qr-instruction">Scannen Sie den QR-Code, um diese Seite auf Ihrem Smartphone oder Tablet zu öffnen</p>
+            <div class="qr-container">
+                <div class="qr-code" id="qr-code">
+                    QR-Code wird hier generiert<br>
+                    <span style="font-size: 0.8rem; color: #666; margin-top: 1rem; display: block;">
+                        (Ersetzen Sie diese Box mit einem echten QR-Code zu Ihrer gehosteten URL)
+                    </span>
+                </div>
+            </div>
+            <p style="color: var(--text-dim); margin-top: 2rem; font-size: 0.9rem;">
+                Hosting-Empfehlung: GitHub Pages (kostenlos) oder Ihr UGREEN Server<br>
+                QR-Generator: <a href="https://www.qr-code-generator.com/" target="_blank" rel="noopener noreferrer" style="color: var(--accent);">qr-code-generator.com</a>
+            </p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>Case Study: Digitalisierung & Innovation bei Zinkpower Brunn am Gebirge</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem;">Präsentiert von Paul | März 2026</p>
+    </footer>
+
+    <script>
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Simple scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card, .timeline-item, .phase, .risk-item, .kpi-card, .ai-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // QR Code placeholder instruction
+        document.addEventListener('DOMContentLoaded', () => {
+            const qrElement = document.getElementById('qr-code');
+            // After hosting, replace this with actual QR code image
+            // Example: qrElement.innerHTML = '<img src="qr-code.png" alt="QR Code" style="width: 100%; height: 100%;">';
+        });
+    </script>
+
+</body>
+</html>
+
